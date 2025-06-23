@@ -56,7 +56,7 @@ with DAG(
     # 4. EmailOperator: 이메일 발송
     email_task = EmailOperator(
         task_id='send_email',
-        to='your_email@example.com',  # 실제 이메일로 변경
+        to='skycloud@mz.co.kr',  # 실제 이메일로 변경
         subject='Airflow EmailOperator Test',
         html_content='<h3>Airflow 작업이 완료되었습니다.</h3>',
         dag=dag,
