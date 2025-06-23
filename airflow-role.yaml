@@ -1,0 +1,27 @@
+# default 네임스페이스에 저장 후 적용
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: airflow-pod-launcher-default-ns
+  namespace: airflow
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "pods/log", "pods/exec", "events"]
+    verbs: ["create", "list", "get", "patch", "watch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: airflow-pod-launcher-default-ns-binding
+  namespace: airflow
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: airflow-pod-launcher-default-ns
+subjects:
+  - kind: ServiceAccount
+    name: airflow-worker
+    namespace: airflow
+  - kind: ServiceAccount
+    name: airflow-scheduler
+    namespace: airflow
