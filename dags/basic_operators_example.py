@@ -2,7 +2,6 @@ from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
 from airflow.operators.dummy import DummyOperator
-from airflow.operators.email import EmailOperator
 from datetime import datetime, timedelta
 
 # Python 함수 예시
@@ -14,14 +13,17 @@ def print_goodbye():
     print("Goodbye, Airflow!")
     return "Goodbye, Airflow!"
 
+def send_notification():
+    print("Notification: Airflow 작업이 완료되었습니다.")
+    return "Notification sent"
+
 # DAG 기본 설정
 default_args = {
     'owner': 'airflow',
     'start_date': datetime(2025, 1, 1),
     'retries': 1,
     'retry_delay': timedelta(minutes=3),
-    'email': ['your_email@example.com'],  # 실제 이메일로 변경
-    'email_on_failure': True,
+    'email_on_failure': False,  # 이메일 알림 비활성화
     'email_on_retry': False,
 }
 
@@ -31,7 +33,7 @@ with DAG(
     schedule_interval='@daily',
     catchup=False,
     tags=['example', 'basic'],
-    description='Bash, Python, Dummy, Email Operator 예제',
+    description='Bash, Python, Dummy Operator 예제',
 ) as dag:
     # 1. 시작 DummyOperator
     start = DummyOperator(
@@ -53,12 +55,10 @@ with DAG(
         dag=dag,
     )
 
-    # 4. EmailOperator: 이메일 발송
-    email_task = EmailOperator(
-        task_id='send_email',
-        to='skycloud@mz.co.kr',  # 실제 이메일로 변경
-        subject='Airflow EmailOperator Test',
-        html_content='<h3>Airflow 작업이 완료되었습니다.</h3>',
+    # 4. Notification PythonOperator: 알림 대체
+    notification_task = PythonOperator(
+        task_id='send_notification',
+        python_callable=send_notification,
         dag=dag,
     )
 
@@ -69,4 +69,4 @@ with DAG(
     )
 
     # 태스크 의존성 설정
-    #start >> bash_task >> python_task >> email_task >> end 
+    start >> bash_task >> python_task >> notification_task >> end 
