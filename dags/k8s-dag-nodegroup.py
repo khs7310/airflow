@@ -10,7 +10,7 @@ with DAG(
 ) as dag:
 
     run_pod = KubernetesPodOperator(
-        task_id='run_pod_task',
+        task_id='run_nodegroup_pod_task',
         namespace='default',
         name='hello-python',
         image='python:3.11-slim',
