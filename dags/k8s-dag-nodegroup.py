@@ -11,7 +11,7 @@ with DAG(
 
     run_pod = KubernetesPodOperator(
         task_id='run_nodegroup_pod_task',
-        namespace='default',
+        namespace='airflow',
         name='hello-python',
         image='python:3.11-slim',
         cmds=['python', '-c'],  # python -c "print('Hello KubernetesPodOperator!')"
