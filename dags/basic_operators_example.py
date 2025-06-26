@@ -69,4 +69,4 @@ with DAG(
     )
 
     # 태스크 의존성 설정
-    start >> bash_task >> python_task >> email_task >> end 
+    #start >> bash_task >> python_task >> email_task >> end 
