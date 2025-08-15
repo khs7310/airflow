@@ -21,6 +21,6 @@ with DAG(
         is_delete_operator_pod=True,
         get_logs=True,
         node_selector={
-            'eks.amazonaws.com/nodegroup': 'ops-system-2023-2025062606325324670000000a',
+            'eks.amazonaws.com/nodegroup': 'ops-system-2023-2025070300254197480000000f',
         },
     )
