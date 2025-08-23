@@ -40,7 +40,7 @@ def cpu_intensive_task():
     
     # 매트릭스 연산 (CPU 집약적)
     import random
-    size = 500
+    size = 3500
     matrix_a = [[random.random() for _ in range(size)] for _ in range(size)]
     matrix_b = [[random.random() for _ in range(size)] for _ in range(size)]
     
